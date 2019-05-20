@@ -6,16 +6,13 @@ class UsersController < ApplicationController
     @user = User.create(user_params)
     return redirect_to controller: 'users', action: 'new' unless @user.save
     session[:user_id] = @user.id
-    redirect_to controller: 'welcome', action: 'home'
+    redirect_to controller: 'projects', action: 'index'
   end
 
   def edit
   end
 
   def update
-  end
-
-  def show
   end
 
   private

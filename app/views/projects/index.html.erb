@@ -1,0 +1,13 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Projects</h1>
+
+<ul>
+  <% @projects.each do |p| %>
+    <li><%= link_to p.name, project_path(p.slug) %></li>
+  <% end %>
+</ul>
+
+<br>
+
+<%= link_to 'New Project', new_project_path %>

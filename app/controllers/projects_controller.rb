@@ -1,5 +1,11 @@
 class ProjectsController < ApplicationController
+    before_action :require_logged_in
     before_action :set_project, only:[:show, :edit, :update]
+
+    def index
+        @projects = Project.all
+    end
+
     def new
         @project = Project.new
     end
@@ -10,6 +16,7 @@ class ProjectsController < ApplicationController
     end
 
     def show
+        @project = Project.find_by_id_or_slug(params[:slug])
     end
 
     def edit

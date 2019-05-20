@@ -1,0 +1,22 @@
+<%= form_with(model: todo, url: [@todo.project, @todo]) do |f| %>
+  <% if todo.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(todo.errors.count, "error") %> prohibited this todo from being saved:</h2>
+
+      <ul>
+      <% todo.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="fields_with_errors">
+    <%= f.label :task %>
+    <%= f.text_field :task %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

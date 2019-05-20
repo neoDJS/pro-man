@@ -1,6 +1,19 @@
 class TodosController < ApplicationController
+    before_action :require_logged_in
     before_action :set_project
     before_action :set_todo, only:[:show, :edit, :update]
+
+
+    def addUser
+        @users = User.all
+    end
+
+    def affectation
+        if todo_users_params
+            @todo.affected_to(todo_users_params)
+        end
+    end
+
     def new
         @todo = project.todos.new
     end
@@ -8,18 +21,25 @@ class TodosController < ApplicationController
     def create
         @todo = project.todos.new(todo_params)
         if @todo.valid?
-            @todo.save
-            if todo_users_params
-                @todo.affected_to(todo_users_params)
-            end
+            @todo.save            
             redirect_to project_todo_path(project, @todo)
         else
             render :new
         end
+        # respond_to do |format|
+        #     if @comment.save
+        #       format.html { redirect_to @comment.post, notice: 'Comment was successfully created.' }
+        #       format.js   { }
+        #       format.json { render :show, status: :created, location: @comment }
+        #     else
+        #       format.html { render :new }
+        #       format.json { render json: @comment.errors, status: :unprocessable_entity }
+        #     end
+        # end
     end
 
     def index
-        @todos = Todo.all_by_slug(params[:slug])
+        @todos = @project.todos #Todo.all_by_project_slug(params[:project_slug])
         if @todos.empty?
             flash[:alert] = "Project not found."
             redirect_to projects_path
@@ -29,23 +49,23 @@ class TodosController < ApplicationController
     def show    
         unless @todo
             flash[:alert] = "Todo not found."
-            redirect_to project_todos_path(project))
+            redirect_to project_todos_path(project)
         end
     end
 
     def edit  
         unless @todo
             flash[:alert] = "Todo not found."
-            redirect_to project_todos_path(project))
+            redirect_to project_todos_path(project)
         end
     end
 
     def update
         @todo.update(todo_params)
         if @todo.save
-            if todo_users_params
-                @todo.affected_to(todo_users_params)
-            end
+            # if todo_users_params
+            #     @todo.affected_to(todo_users_params)
+            # end
             redirect_to @todo
         else
             # flash[:notice] = "Artist deleted."
@@ -63,11 +83,11 @@ class TodosController < ApplicationController
         end
 
         def set_project
-            project = Project.find_by_id_or_slug(params[:slug])
+            @project = Project.find_by_id_or_slug(params[:project_slug])
         end
 
         def set_todo
-            # project = Project.find_by_id_or_slug(params[:slug])
-            @todo = Todo.find_by(project_id: project.id, id: params[:id])
+            # project = Project.find_by_id_or_slug(params[:project_slug])
+            @todo = Todo.find_by(project_id: @project.id, id: (params[:todo_id]||params[:id]))
         end
 end

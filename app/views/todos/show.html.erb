@@ -1,0 +1,13 @@
+<p id="notice"><%= notice %></p>
+
+<h1>
+  <strong><%= @todo.task %></strong>  
+</h1>
+
+<!--p>
+  <strong>Titre:</strong>
+  < %= @post.titre % >
+</p-->
+
+<%= link_to 'Edit', edit_project_todo_path(@todo.project.slug, @todo) %> |
+<!--% = link_to 'Back', posts_path %-->
