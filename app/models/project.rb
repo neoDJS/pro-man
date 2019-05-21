@@ -1,7 +1,6 @@
 class Project < ApplicationRecord
-    belongs_to :created_by, class_name: "User", foreign_key: "user_id"
     has_many :todos
-    has_many :affected_users, through: :todos
+    has_many :workers, through: :todos
     scope :starting, -> { where("created_at < ?", time) }
     scope :ending, -> { where("created_at < ?", time) }
     # scope :created_before, ->(time) { where("created_at < ?", time) }

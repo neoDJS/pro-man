@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
         u.name = auth['info']['name']
         u.email = auth['info']['email']
         sha256 = Digest::SHA2.new(256)
-        u.password = sha256(u.name)
+        u.password = sha256.hexdigest(u.name)
         # u.image = auth['info']['image']
       end
     else
@@ -17,6 +17,7 @@ class SessionsController < ApplicationController
     end
 
     if @user
+      @user.set_current_user
       session[:user_id] = @user.id
     end
 

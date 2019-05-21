@@ -1,0 +1,48 @@
+<!--
+; check_box_tag(name, value = "1", checked = false, options = {})
+; check_box_tag 'accept'
+; # => <input id="accept" name="accept" type="checkbox" value="1" />
+
+; check_box_tag 'rock', 'rock music'
+; # => <input id="rock" name="rock" type="checkbox" value="rock music" />
+
+; check_box_tag 'receive_email', 'yes', true
+; # => <input checked="checked" id="receive_email" name="receive_email" type="checkbox" value="yes" />
+
+; check_box_tag 'tos', 'yes', false, class: 'accept_tos'
+; # => <input class="accept_tos" id="tos" name="tos" type="checkbox" value="yes" />
+
+; check_box_tag 'eula', 'accepted', false, disabled: true
+; # => <input disabled="disabled" id="eula" name="eula" type="checkbox" value="accepted" /> 
+-->
+
+<%= form_tag(project_todo_affectation_path(@todo.project.slug, @todo), method: "POST") do %>
+  <% if @todo.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@todo.errors.count, "error") %> prohibited this todo from being saved:</h2>
+
+      <ul>
+      <% @todo.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <ul>
+    <% @users.each do |user| %>
+        <li>
+          <div class="fields_with_errors">
+              <%= check_box_tag 'user_ids[]', user.id -%>
+              <%= h user.name -%>
+          </div>
+        </li>
+    <% end %>
+  </ul>
+
+  <div class="actions">
+    <%= submit_tag "Save" %>
+  </div>
+<% end %>
+
+

@@ -1,28 +1,31 @@
 class TodosController < ApplicationController
     before_action :require_logged_in
     before_action :set_project
-    before_action :set_todo, only:[:show, :edit, :update]
+    before_action :set_todo, only:[:show, :edit, :update, :addUser, :affectation]
 
 
     def addUser
+        @selected = @todo.affected_users
         @users = User.all
+        render :affectation
     end
 
     def affectation
         if todo_users_params
             @todo.affected_to(todo_users_params)
         end
+        redirect_to project_todo_path(@project.slug, @todo)
     end
 
     def new
-        @todo = project.todos.new
+        @todo = @project.todos.new
     end
 
     def create
-        @todo = project.todos.new(todo_params)
+        @todo = @project.todos.new(todo_params)
         if @todo.valid?
             @todo.save            
-            redirect_to project_todo_path(project, @todo)
+            redirect_to project_todo_path(@project.slug, @todo)
         else
             render :new
         end
@@ -49,14 +52,14 @@ class TodosController < ApplicationController
     def show    
         unless @todo
             flash[:alert] = "Todo not found."
-            redirect_to project_todos_path(project)
+            redirect_to project_todos_path(@project.slug)
         end
     end
 
     def edit  
         unless @todo
             flash[:alert] = "Todo not found."
-            redirect_to project_todos_path(project)
+            redirect_to project_todos_path(@project.slug)
         end
     end
 
@@ -79,7 +82,7 @@ class TodosController < ApplicationController
         end
 
         def todo_users_params
-            params.require(:todo).permit(user_ids:[])
+            params.permit(user_ids:[])
         end
 
         def set_project
