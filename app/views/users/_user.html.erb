@@ -1,7 +1,18 @@
 <%= form_for @user, controller: 'users', action: 'create' do |f| %>
-  Username: <%= f.text_field :name %>
-  Email: <%= f.text_field :email %>
-  Password: <%= f.password_field :password %>
+<div class="fields_with_errors">
+    <span class="error"><%= @user.errors.messages[:name].join(". ") if @user.errors.any? %></span>
+    Username: <%= f.text_field :name %>
+  </div>
+
+  <div class="fields_with_errors">
+    <span class="error"><%= @user.errors.messages[:email].join(". ") if @user.errors.any? %></span>
+    Email: <%= f.text_field :email %>
+  </div>
+
+  <div class="fields_with_errors">
+    <span class="error"><%= @user.errors.messages[:password].join(". ") if @user.errors.any? %></span>
+    Password: <%= f.password_field :password %>
+  </div>
 
   <%= f.submit "create" %>
 <% end %>
