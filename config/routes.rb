@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resources :projects, param: :slug do
     resources :todos do
       # resources :user_todos, only: [:new, :create]
-      get '/affectation/new' => 'todos#addUser'
+      get '/affectation/new' => 'todos#addWorker'
       post '/affectation' => 'todos#affectation'
     end
   end

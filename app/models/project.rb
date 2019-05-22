@@ -14,7 +14,7 @@ class Project < ApplicationRecord
     end
 
     def self.find_by_id_or_slug(slugified)
-        if slugified.is_a?(Numeric)
+        if slugified.is_a?(Integer)
             self.find_by(id: slugified)
         else
             self.find{|p| p.slug == slugified}

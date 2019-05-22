@@ -30,11 +30,11 @@
   <% end %>
 
   <ul>
-    <% @users.each do |user| %>
+    <% @workers.each do |worker| %>
         <li>
           <div class="fields_with_errors">
-              <%= check_box_tag 'user_ids[]', user.id -%>
-              <%= h user.name -%>
+              <%= check_box_tag 'worker_ids[]', worker.id -%>
+              <%= h worker.name -%>
           </div>
         </li>
     <% end %>

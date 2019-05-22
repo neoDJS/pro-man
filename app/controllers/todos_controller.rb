@@ -1,18 +1,18 @@
 class TodosController < ApplicationController
     before_action :require_logged_in
     before_action :set_project
-    before_action :set_todo, only:[:show, :edit, :update, :addUser, :affectation]
+    before_action :set_todo, only:[:show, :edit, :update, :addWorker, :affectation]
 
 
-    def addUser
-        @selected = @todo.affected_users
-        @users = User.all
+    def addWorker
+        @selected = @todo.workers
+        @workers = Worker.all
         render :affectation
     end
 
     def affectation
-        if todo_users_params
-            @todo.affected_to(todo_users_params)
+        if todo_workers_params
+            @todo.affected_to(todo_workers_params)
         end
         redirect_to project_todo_path(@project.slug, @todo)
     end
@@ -66,8 +66,8 @@ class TodosController < ApplicationController
     def update
         @todo.update(todo_params)
         if @todo.save
-            # if todo_users_params
-            #     @todo.affected_to(todo_users_params)
+            # if todo_workers_params
+            #     @todo.affected_to(todo_workers_params)
             # end
             redirect_to @todo
         else
@@ -81,8 +81,8 @@ class TodosController < ApplicationController
             params.require(:todo).permit(:task)
         end
 
-        def todo_users_params
-            params.permit(user_ids:[])
+        def todo_workers_params
+            params.permit(worker_ids:[])
         end
 
         def set_project
