@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
     has_secure_password
     validates_presence_of :name, :email, :password
     validates :email, uniqueness: true
+    validates :name, format: { without: /[0-9]/, message: "does not allow numbers" }
     # validates_presence_of :worker, allow_nil: true
     has_many :created_projects, class_name: "Project", foreign_key: "created_by_id"
     has_many :created_todos, class_name: "Todo", foreign_key: "created_by_id"

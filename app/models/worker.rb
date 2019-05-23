@@ -4,13 +4,12 @@ class Worker < ApplicationRecord
     has_many :todos, through: :worker_todos
     has_many :projects, through: :todos
 
-    after_initialize :create_user
-
     def name
         self.user.name
     end
 
-    def create_user
-        # user = User.create(name: self.name, email: self.email, password: self.password)
+    def user_attributes=(attr)
+        self.user = User.find_or_create_by(name: attr[:name])
+        self.user.update(attr)
     end
 end

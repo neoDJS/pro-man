@@ -1,5 +1,5 @@
 <%= form_for @user, controller: 'users', action: 'create' do |f| %>
-<div class="fields_with_errors">
+  <div class="fields_with_errors">
     <span class="error"><%= @user.errors.messages[:name].join(". ") if @user.errors.any? %></span>
     Username: <%= f.text_field :name %>
   </div>

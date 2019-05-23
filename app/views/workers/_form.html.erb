@@ -1,0 +1,37 @@
+<%= form_with(model: worker, url: [@worker.project, @worker]) do |f| %>
+  <% if worker.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(worker.errors.count, "error") %> prohibited this worker from being saved:</h2>
+    </div>
+  <% end %>
+
+  <%= f.fields_for :user do |u| %>
+    <div class="field<%= ' field_with_errors' if worker.user.errors[:name].any? %>">
+      <span class="error"><%= worker.user.errors.messages[:name].join(". ") if worker.user.errors[:name].any? %></span>
+      <%= u.label :name %>
+      <%= u.text_field :name %>
+    </div><br>
+
+    <div class="field<%= ' field_with_errors' if worker.user.errors[:email].any? %>">
+      <span class="error"><%= worker.user.errors.messages[:email].join(". ") if worker.user.errors[:email].any? %></span>
+      <%= u.label :email %>
+      <%= u.text_field :email %>
+    </div><br>
+
+    <div class="field<%= ' field_with_errors' if worker.user.errors[:password].any? %>">
+      <span class="error"><%= worker.user.errors.messages[:password].join(". ") if worker.user.errors[:password].any? %></span>
+      <%= u.label :password %>
+      <%= u.password_field :password %>
+    </div><br>
+  <% end %> 
+
+  <div class="field<%= ' field_with_errors' if worker.errors[:title].any? %>">
+    <span class="error"><%= worker.errors.messages[:title].join(". ") if worker.errors[:title].any? %></span>
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

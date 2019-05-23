@@ -1,0 +1,12 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Todos</h1>
+<br>
+
+<ul>
+  <% @todos.each do |t| %>
+    <li><%= link_to t.task, project_todo_path(t.project.slug, t) %></li>
+  <% end %>
+</ul>
+
+<!--%= link_to 'New Post', new_post_path %-->

@@ -33,7 +33,7 @@
     <% @workers.each do |worker| %>
         <li>
           <div class="fields_with_errors">
-              <!--span class="error">< %= todo.errors.messages[:worker_id].join(". ") if todo.errors.any? % ></span-->
+              <!--span>< %= todo.errors.messages[:worker_id].join(". ") if todo.errors.any? % ></span-->
               <%= check_box_tag 'worker_ids[]', worker.id -%>
               <%= h worker.name -%>
           </div>

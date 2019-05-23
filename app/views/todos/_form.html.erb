@@ -6,7 +6,7 @@
   <% end %>
 
   <div class="fields_with_errors">
-    <span><%= todo.errors.messages[:task].join(". ") if todo.errors.any? %></span>
+    <span class="error"><%= todo.errors.messages[:task].join(". ") if todo.errors.any? %></span>
     <%= f.label :task %>
     <%= f.text_field :task %>
   </div>
