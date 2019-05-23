@@ -9,5 +9,16 @@
   <%= @worker.title %>
 </p>
 
+<br><br>
+
+<h3>Duties</h3>
+<br>
+
+<ul>
+  <% @worker.todos.each do |t| %>
+    <li><%= link_to t.task, project_todo_path(t.project.slug, t) %></li>
+  <% end %>
+</ul>
+
 <%= link_to 'Edit', worker_path(@worker) %> |
-<!--% = link_to 'Back', posts_path %-->
+<% = link_to 'Back', workers_path %>
