@@ -1,11 +1,11 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Todos</h1>
+<h1>Workers</h1>
 <br>
 
 <ul>
-  <% @todos.each do |t| %>
-    <li><%= link_to t.task, project_todo_path(t.project.slug, t) %></li>
+  <% @workers.each do |w| %>
+    <li><%= link_to w.name, worker_path(w) %></li>
   <% end %>
 </ul>
 

@@ -7,18 +7,13 @@ class WorkersController < ApplicationController
     end
   
     def create
-      @user = User.create(user_params)
-      if @user.save
-        @worker = user.build_worker(worker_params)
-        
+        @worker = Worker.create(worker_params)
+
         if @worker.save
             redirect_to @worker
         else
             render :new
         end
-      else
-        render :new
-      end
     end
   
     def edit
@@ -37,11 +32,7 @@ class WorkersController < ApplicationController
     private
   
         def worker_params
-            params.require(:worker).permit(:task)
-        end
-
-        def user_params
-            params.require(:worker).permit(:name, :password, :email)
+            params.require(:worker).permit(:title, user_attributes: [:name, :password, :email])
         end
 
         def set_worker

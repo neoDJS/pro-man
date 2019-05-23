@@ -1,13 +1,13 @@
 <p id="notice"><%= notice %></p>
 
 <h1>
-  <strong><%= @todo.task %></strong>  
+  <strong><%= @worker.user.name %></strong>  
 </h1>
 
-<!--p>
-  <strong>Titre:</strong>
-  < %= @post.titre % >
-</p-->
+<p>
+  <strong>Title:</strong>
+  <%= @worker.title %>
+</p>
 
-<%= link_to 'Edit', edit_project_todo_path(@todo.project.slug, @todo) %> |
+<%= link_to 'Edit', worker_path(@worker) %> |
 <!--% = link_to 'Back', posts_path %-->
