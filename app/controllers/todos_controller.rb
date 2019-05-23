@@ -25,7 +25,7 @@ class TodosController < ApplicationController
         @todo = @project.todos.new(todo_params)
         if @todo.valid?
             @todo.save            
-            redirect_to project_todo_path(@project.slug, @todo)
+            redirect_to project_path(@project.slug)
         else
             render :new
         end
