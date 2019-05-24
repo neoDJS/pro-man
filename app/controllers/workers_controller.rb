@@ -9,10 +9,15 @@ class WorkersController < ApplicationController
     def create
         @worker = Worker.create(worker_params)
 
-        if @worker.save
-            redirect_to @worker
-        else
-            render :new
+        respond_to do |format|
+            if @worker.valid?
+                @worker.save
+                format.html { redirect_to worker_path(@worker), notice: 'Worker was successfully created.' }
+                format.json { render :show, status: :created, location: @worker }                
+            else
+                format.html { render :new }
+                format.json { render json: @worker.errors, status: :unprocessable_entity }
+            end
         end
     end
   
@@ -21,11 +26,15 @@ class WorkersController < ApplicationController
   
     def update
       @worker.update(worker_params)
-      if @worker.save
-        redirect_to @worker
-      else
-          # flash[:notice] = "Artist deleted."
-          render :edit
+        
+      respond_to do |format|
+          if @worker.save
+              format.html { redirect_to worker_path(@worker), notice: 'Worker was successfully updated.' }
+              format.json { render :show, status: :created, location: @worker }
+          else
+              format.html { render :edit }
+              format.json { render json: @worker.errors, status: :unprocessable_entity }
+          end
       end
     end
   
