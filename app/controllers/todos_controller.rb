@@ -7,27 +7,45 @@ class TodosController < ApplicationController
     def addWorker
         @selected = @todo.workers
         @workers = Worker.all
-        render :affectation
+
+        respond_to do |format|
+            format.html { render :affectation }
+            format.json { render json: {todo: @todo, workers: @workers}, status: :ok }
+        end
     end
 
     def affectation
         if todo_workers_params
             @todo.affected_to(todo_workers_params)
         end
-        redirect_to project_todo_path(@project.slug, @todo)
+
+        respond_to do |format|
+            format.html { redirect_to project_todo_path(@project.slug, @todo) }
+            format.json { render json: @todo, status: :ok }
+        end
     end
 
     def new
         @todo = @project.todos.new
+        
+        respond_to do |format|
+            format.html { render :new }
+            format.json { render json: @todo, status: :ok }
+        end
     end
 
     def create
         @todo = @project.todos.new(todo_params)
-        if @todo.valid?
-            @todo.save            
-            redirect_to project_path(@project.slug)
-        else
-            render :new
+        respond_to do |format|
+            if @todo.valid?
+                @todo.save
+                format.html { redirect_to project_path(@project.slug), notice: 'Todo was successfully created.' }
+                format.js   { }
+                format.json { render :show, status: :created, location: @todo }                
+            else
+                format.html { render :new }
+                format.json { render json: @todo.errors, status: :unprocessable_entity }
+            end
         end
         # respond_to do |format|
         #     if @comment.save
@@ -43,36 +61,50 @@ class TodosController < ApplicationController
 
     def index
         @todos = @project.todos #Todo.all_by_project_slug(params[:project_slug])
-        if @todos.empty?
-            flash[:alert] = "Project not found."
-            redirect_to projects_path
+
+        respond_to do |format|
+            if @todos.empty?
+                format.html { redirect_to project_path(@project.slug), alert: 'Todos not found.' }                
+            else
+                format.html { render :index }
+            end
+            format.json { render json: @todos, status: :ok }
         end
     end
 
-    def show    
-        unless @todo
-            flash[:alert] = "Todo not found."
-            redirect_to project_todos_path(@project.slug)
-        end
+    def show  
+        respond_to do |format|
+            unless @todo.nil?
+                format.html { redirect_to project_todos_path(@project.slug), alert: 'Todo not found.' }                
+            else
+                format.html { render :show }
+            end
+            format.json { render json: @todo, status: :ok }
+        end  
     end
 
-    def edit  
-        unless @todo
-            flash[:alert] = "Todo not found."
-            redirect_to project_todos_path(@project.slug)
-        end
+    def edit 
+        respond_to do |format|
+            unless @todo.nil?
+                format.html { redirect_to project_todos_path(@project.slug), alert: 'Todo not found.' }                
+            else
+                format.html { render :edit }
+            end
+            format.json { render json: @todo, status: :ok }
+        end 
     end
 
     def update
         @todo.update(todo_params)
-        if @todo.save
-            # if todo_workers_params
-            #     @todo.affected_to(todo_workers_params)
-            # end
-            redirect_to @todo
-        else
-            # flash[:notice] = "Artist deleted."
-            render :edit
+        respond_to do |format|
+            if @todo.save
+                format.html { redirect_to project_todo_path(@project.slug, @todo), notice: 'Todo was successfully updated.' }
+                format.js   { }
+                format.json { render :show, status: :created, location: @todo }
+            else
+                format.html { render :edit }
+                format.json { render json: @todo.errors, status: :unprocessable_entity }
+            end
         end
     end
     
