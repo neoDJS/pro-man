@@ -40,7 +40,6 @@ class TodosController < ApplicationController
             if @todo.valid?
                 @todo.save
                 format.html { redirect_to project_path(@project.slug), notice: 'Todo was successfully created.' }
-                format.js   { }
                 format.json { render :show, status: :created, location: @todo }                
             else
                 format.html { render :new }
@@ -99,7 +98,6 @@ class TodosController < ApplicationController
         respond_to do |format|
             if @todo.save
                 format.html { redirect_to project_todo_path(@project.slug, @todo), notice: 'Todo was successfully updated.' }
-                format.js   { }
                 format.json { render :show, status: :created, location: @todo }
             else
                 format.html { render :edit }
