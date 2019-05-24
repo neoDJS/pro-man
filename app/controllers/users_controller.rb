@@ -7,12 +7,18 @@ class UsersController < ApplicationController
   def create
     @user = User.create(user_params)
     # return redirect_to controller: 'users', action: 'new' unless @user.save
-    if @user.save
-      @user.set_current_user
-      session[:user_id] = @user.id
-      redirect_to controller: 'projects', action: 'index'
-    else
-      render :new
+
+    respond_to do |format|
+      if @user.valid?
+          @user.save
+          @user.set_current_user
+          session[:user_id] = @user.id
+          format.html { redirect_to projects_path(@project), notice: 'User was successfully created.' }
+          format.json { render :show, status: :created, location: @user }                
+      else
+          format.html { render :new }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -22,11 +28,15 @@ class UsersController < ApplicationController
   def update    
     @user = User.find(params[:id])
     @user.update(user_params)
-    if @user.save
-      redirect_to @user
-    else
-        # flash[:notice] = "Artist deleted."
-        render :edit
+
+    respond_to do |format|
+      if @user.save
+          format.html { redirect_to user_path(@user), notice: 'User was successfully updated.' }
+          format.json { render :show, status: :created, location: @user }
+      else
+          format.html { render :edit }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
     end
   end
 

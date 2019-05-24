@@ -67,7 +67,7 @@ class ProjectsController < ApplicationController
         
         respond_to do |format|
             if @project.save
-                format.html { redirect_to project_path(@project), notice: 'Todo was successfully updated.' }
+                format.html { redirect_to project_path(@project), notice: 'Project was successfully updated.' }
                 format.json { render :show, status: :created, location: @project }
             else
                 format.html { render :edit }
