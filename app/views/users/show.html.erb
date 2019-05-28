@@ -10,14 +10,16 @@
 
 <br><br>
 
-<h3>Duties as a Worker</h3>
-<br>
+<% if !@user.worker.nil? %>
+  <h3>Duties as a Worker</h3>
+  <br>
 
-<ul>
-  <% @user.worker.todos.each do |t| %>
-    <li><%= link_to t.task, project_todo_path(t.project.slug, t) %></li>
-  <% end if @user.worker %>
-</ul>
+  <ul>
+    <% @user.worker.todos.each do |t| %>
+      <li><%= link_to t.task, project_todo_path(t.project.slug, t) %></li>
+    <% end if @user.worker %>
+  </ul>
+<% end %>
 
 <%= link_to 'Edit', user_path(@user) %> |
 <% if @user.worker.nil? %> <%= link_to 'Become a Worker', new_user_worker_path(@user) %> | <% end %>

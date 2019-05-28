@@ -22,7 +22,7 @@ class SessionsController < ApplicationController
       session[:user_id] = @user.id
     end
 
-    redirect_to controller: 'projects', action: 'index'
+    redirect_to controller: 'welcome', action: 'home'
   end
 
   def destroy
