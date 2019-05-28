@@ -2,6 +2,7 @@ class TodosController < ApplicationController
     before_action :require_logged_in
     before_action :set_project
     before_action :set_todo, only:[:show, :edit, :update, :addWorker, :affectation]
+    before_action :set_action_user, only: [:affectation]
 
 
     def addWorker
@@ -15,6 +16,8 @@ class TodosController < ApplicationController
     end
 
     def affectation
+        puts "affect todo"
+        puts todo_workers_params.inspect
         if todo_workers_params
             @todo.affected_to(todo_workers_params)
         end
@@ -74,9 +77,9 @@ class TodosController < ApplicationController
     def show  
         respond_to do |format|
             unless @todo.nil?
-                format.html { redirect_to project_todos_path(@project.slug), alert: 'Todo not found.' }                
+                format.html { render :show }         
             else
-                format.html { render :show }
+                format.html { redirect_to project_todos_path(@project.slug), alert: 'Todo not found.' }
             end
             format.json { render json: @todo, status: :ok }
         end  
@@ -85,9 +88,9 @@ class TodosController < ApplicationController
     def edit 
         respond_to do |format|
             unless @todo.nil?
-                format.html { redirect_to project_todos_path(@project.slug), alert: 'Todo not found.' }                
+                format.html { render :edit }             
             else
-                format.html { render :edit }
+                format.html { redirect_to project_todos_path(@project.slug), alert: 'Todo not found.' }
             end
             format.json { render json: @todo, status: :ok }
         end 
@@ -116,6 +119,7 @@ class TodosController < ApplicationController
         end
 
         def set_project
+            puts params.inspect
             @project = Project.find_by_id_or_slug(params[:project_slug])
         end
 

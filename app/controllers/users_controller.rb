@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :require_logged_in, only:[:show, :edit, :update]
+  skip_before_action :set_action_user, only: [:create]
 
   def new
   end
@@ -11,7 +12,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.valid?
           @user.save
-          @user.set_current_user
+          # @user.set_current_user
           session[:user_id] = @user.id
           format.html { redirect_to projects_path(@project), notice: 'User was successfully created.' }
           format.json { render :show, status: :created, location: @user }                

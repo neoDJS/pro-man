@@ -11,5 +11,5 @@
 </ul>
 
 <%= link_to 'Edit', edit_project_todo_path(@todo.project.slug, @todo) %> |
-<% = link_to 'Add Doers', project_todo_affectation_new(@todo.project.slug, @todo) %> |
-<% = link_to 'Back', project_path(@todo.project.slug) %>
+<%= link_to 'Add Doers', project_todo_affectation_new_path(@todo.project.slug, @todo) %> |
+<%= link_to 'Back', project_path(@todo.project.slug) %>

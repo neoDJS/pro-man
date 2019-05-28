@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+  skip_before_action :set_action_user
   def new
   end
 
@@ -17,7 +18,7 @@ class SessionsController < ApplicationController
     end
 
     if @user
-      @user.set_current_user
+      # @user.set_current_user
       session[:user_id] = @user.id
     end
 

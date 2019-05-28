@@ -22,9 +22,9 @@
       <h2><%= pluralize(@todo.errors.count, "error") %> prohibited this todo from being saved:</h2>
 
       <ul>
-      <% @todo.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+        <% @todo.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>

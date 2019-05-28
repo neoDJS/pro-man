@@ -9,13 +9,17 @@
   <%= @project.description %>
 </p>
 
-<ul>
-  <% @project.todos.each |todo| %>
-    <li><%= link_to todo.task, project_todo_path(t.project.slug, todo) %></li>
-  <% end %>
-</ul>
+<p>
+  <ul>
+    <% @project.todos.each do |todo| %>
+      <li><%= link_to todo.task, project_todo_path(todo.project.slug, todo) %></li>
+    <% end %>
+  </ul>
+</p>
 
-<%= render 'todos/form' %>
+<p>
+  <%= render 'todos/form', todo: @project.todos.new %>
+</p>
 
 <%= link_to 'Show Task', project_todos_path(@project.slug) %> |
-<!--%= link_to 'Back', posts_path %-->
+<%= link_to 'Back', projects_path %>

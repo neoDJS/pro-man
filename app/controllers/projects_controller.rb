@@ -43,9 +43,9 @@ class ProjectsController < ApplicationController
         # @project = Project.find_by_id_or_slug(params[:slug])
         respond_to do |format|
             unless @project.nil?
-                format.html { redirect_to projects_path, alert: 'Project not found.' }                
+                format.html { render :show }           
             else
-                format.html { render :show }
+                format.html { redirect_to projects_path, alert: 'Project not found.' }  
             end
             format.json { render json: @project, status: :ok }
         end  
@@ -54,9 +54,9 @@ class ProjectsController < ApplicationController
     def edit
         respond_to do |format|
             unless @project.nil?
-                format.html { redirect_to projects_path, alert: 'Project not found.' }                
+                format.html { render :edit }   
             else
-                format.html { render :edit }
+                format.html { redirect_to projects_path, alert: 'Project not found.' }
             end
             format.json { render json: @project, status: :ok }
         end 
