@@ -6,11 +6,11 @@ class ProjectsController < ApplicationController
         @projects = Project.all
 
         respond_to do |format|
-            msg = ''
             if @projects.empty?
-                msg = 'There is no Projects found.'
+                format.html { redirect_to root_path, alert: 'There is no Projects found.' }                
+            else
+                format.html { render :index }
             end
-            format.html { render :index, alert: msg }
             format.json { render json: @projects, status: :ok }
         end
     end

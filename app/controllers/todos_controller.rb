@@ -6,8 +6,8 @@ class TodosController < ApplicationController
 
 
     def addWorker
-        @selected = @todo.workers
-        @workers = Worker.all
+        selected = @todo.workers
+        @workers = Worker.all - selected
 
         respond_to do |format|
             format.html { render :affectation }
@@ -66,7 +66,7 @@ class TodosController < ApplicationController
 
         respond_to do |format|
             if @todos.empty?
-                format.html { redirect_to project_path(@project.slug), alert: 'Todos not found.' }                
+                format.html { redirect_to project_path(@project.slug), alert: 'Todos is empty.' }                
             else
                 format.html { render :index }
             end

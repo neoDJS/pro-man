@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users, only: [:new, :create, :edit, :update, :show]
+  resources :users#, only: [:new, :create, :edit, :update, :show]
   resources :workers
 
   get '/login' => 'sessions#new'
@@ -17,6 +17,6 @@ Rails.application.routes.draw do
   
   get '/auth/facebook/callback' => 'sessions#create'
 
-  root 'projects#index'
+  root 'welcome#home'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

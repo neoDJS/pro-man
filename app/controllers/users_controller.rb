@@ -2,6 +2,31 @@ class UsersController < ApplicationController
   before_action :require_logged_in, only:[:show, :edit, :update]
   skip_before_action :set_action_user, only: [:create]
 
+  def index
+    @users = User.all
+
+    respond_to do |format|
+        if @users.empty?
+            format.html { redirect_to root_path, alert: 'Users is empty.' }                
+        else
+            format.html { render :index }
+        end
+        format.json { render json: @users, status: :ok }
+    end
+  end
+
+  def show    
+    @user = User.find(params[:id])
+    respond_to do |format|
+        unless @user.nil?
+            format.html { render :show }         
+        else
+            format.html { redirect_to users_path, alert: 'User not found.' }
+        end
+        format.json { render json: @user, status: :ok }
+    end  
+  end
+
   def new
   end
 
@@ -23,7 +48,8 @@ class UsersController < ApplicationController
     end
   end
 
-  def edit
+  def edit  
+    @user = User.find(params[:id])
   end
 
   def update    

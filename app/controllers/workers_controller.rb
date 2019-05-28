@@ -2,6 +2,31 @@ class WorkersController < ApplicationController
     before_action :require_logged_in
     before_action :set_worker, only:[:show, :edit, :update]
 
+    def index
+      @workers = User.all
+  
+      respond_to do |format|
+          if @workers.empty?
+              format.html { redirect_to root_path, alert: 'Workers is empty.' }                
+          else
+              format.html { render :index }
+          end
+          format.json { render json: @workers, status: :ok }
+      end
+    end
+  
+    def show    
+      @worker = User.find(params[:id])
+      respond_to do |format|
+          unless @worker.nil?
+              format.html { render :show }         
+          else
+              format.html { redirect_to workers_path, alert: 'Worker not found.' }
+          end
+          format.json { render json: @worker, status: :ok }
+      end  
+    end
+
     def new
         @worker = Worker.new
     end
