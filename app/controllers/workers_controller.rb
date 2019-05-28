@@ -3,7 +3,7 @@ class WorkersController < ApplicationController
     before_action :set_worker, only:[:show, :edit, :update]
 
     def index
-      @workers = User.all
+      @workers = Worker.all
   
       respond_to do |format|
           if @workers.empty?
@@ -16,7 +16,6 @@ class WorkersController < ApplicationController
     end
   
     def show    
-      @worker = User.find(params[:id])
       respond_to do |format|
           unless @worker.nil?
               format.html { render :show }         
@@ -29,6 +28,12 @@ class WorkersController < ApplicationController
 
     def new
         @worker = Worker.new
+        if params[:user_id]
+            user = User.find(params[:user_id])
+            @worker.build_user(user.as_json)
+        else
+            @worker.build_user
+        end
     end
   
     def create

@@ -1,4 +1,4 @@
-<%= form_with(model: worker, url: [@worker.project, @worker]) do |f| %>
+<%= form_for(worker) do |f| %>
   <% if worker.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(worker.errors.count, "error") %> prohibited this worker from being saved:</h2>

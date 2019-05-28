@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 
 <h1>
-  <strong><%= @worker.user.name %></strong>  
+  <strong><%= @worker.name %></strong>  
 </h1>
 
 <p>
@@ -21,4 +21,4 @@
 </ul>
 
 <%= link_to 'Edit', worker_path(@worker) %> |
-<% = link_to 'Back', workers_path %>
+<%= link_to 'Back', workers_path %>

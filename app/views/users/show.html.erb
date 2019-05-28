@@ -1,24 +1,24 @@
 <p id="notice"><%= notice %></p>
 
 <h1>
-  <strong><%= @worker.user.name %></strong>  
+  <strong><%= @user.name %></strong>  
 </h1>
 
 <p>
-  <strong>Title:</strong>
-  <%= @worker.title %>
+  <%= @user.email %>
 </p>
 
 <br><br>
 
-<h3>Duties</h3>
+<h3>Duties as a Worker</h3>
 <br>
 
 <ul>
-  <% @worker.todos.each do |t| %>
+  <% @user.worker.todos.each do |t| %>
     <li><%= link_to t.task, project_todo_path(t.project.slug, t) %></li>
-  <% end %>
+  <% end if @user.worker %>
 </ul>
 
-<%= link_to 'Edit', worker_path(@worker) %> |
-<% = link_to 'Back', workers_path %>
+<%= link_to 'Edit', user_path(@user) %> |
+<% if @user.worker.nil? %> <%= link_to 'Become a Worker', new_user_worker_path(@user) %> | <% end %>
+<%= link_to 'Back', users_path %>
